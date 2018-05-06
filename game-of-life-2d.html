@@ -13,13 +13,14 @@
         function setup () {
             frameRate(10);
             resolution = 50;
-            createCanvas(500,500);
-            cols = width / resolution;
-            rows = height / resolution;        
+            createCanvas(1000,1000);
+            cols = 500/resolution;
+            rows = 500/resolution;    
             grid = make2DArray(10,10);
             for (let i = 0; i < cols; i++) {
                 for (let j = 0; j < rows; j++){
-                    grid[i][j] = floor(random(2));
+                    let rand = floor(random(2))
+                    grid[i][j] = rand;
                 }
             }
         }
@@ -42,9 +43,17 @@
                     let x  = i * resolution;
                     let y  = j * resolution;
                     if (grid[i][j] == 1){
-                        stroke(y/4,x/2,x/3);
-                        fill(x/4,y/2,y/4);
-                        rect(x, y, resolution - 1,resolution - 1);
+                       noStroke();
+                        // stroke(y/4,x/2,x/3);
+                        fill(x/4,y/2,y/4,150);
+                        rect(x, y, resolution,resolution);
+                        fill(x/4,y/2,y/4,90);
+                        rect(x, y, resolution/2,resolution/2);
+                        fill(x/4,y/2,y/4,50);
+                        rect(x, y, resolution/4,resolution/4);
+                        if(mouseIsPressed){
+                            resolution--;
+                        }
                     }
                 }
             }
