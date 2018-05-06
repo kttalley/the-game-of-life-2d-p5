@@ -4,21 +4,15 @@
         new p5();
         
 
-        function make2DArray(cols, rows) {
-            let arr = new Array(cols);
-            for (let i = 0; i < arr.length; i++) {
-                arr[i] = new Array(rows);
-            }
-            return arr;
-        }
 
         let grid;
         let cols;
         let rows;
-        let resolution = 50;
+        let resolution;
 
         function setup () {
             frameRate(10);
+            resolution = 50;
             createCanvas(500,500);
             cols = width / resolution;
             rows = height / resolution;        
@@ -29,9 +23,16 @@
                 }
             }
         }
+        function make2DArray(cols, rows) {
+            let arr = new Array(cols);
+            for (let i = 0; i < arr.length; i++) {
+                arr[i] = new Array(rows);
+            }
+            return arr;
+        }
 
         function draw () {
-            background(0);
+            background(0,10);
 
             
 
@@ -41,8 +42,9 @@
                     let x  = i * resolution;
                     let y  = j * resolution;
                     if (grid[i][j] == 1){
+                        stroke(y/4,x/2,x/3);
                         fill(x/4,y/2,y/4);
-                        rect(x, y, resolution - 1,resolution - 1,frameCount/10);
+                        rect(x, y, resolution - 1,resolution - 1);
                     }
                 }
             }
@@ -51,11 +53,11 @@
         //compute nextGen based on grid
         for (let i = 0; i < cols; i++){
             for (let j = 0; j < rows; j++){
-                let state = grid[i][j];
+                // let state = grid[i][j];
                //edges
-               if(i == 0 || i == cols - 1 || j == 0 || j == rows - 1){
-                   nextGen[i][j] = state;
-               } else {
+            //    if(i == 0 || i == cols - 1 || j == 0 || j == rows - 1){
+            //        nextGen[i][j] = state;
+            //    } else {
                
 
                 //count live neighbors
@@ -81,7 +83,7 @@
                 // sum += grid[i - 1][j];
 
             }
-        }
+        // }
         }
         grid = nextGen;
         
@@ -92,7 +94,10 @@
             let sum = 0;
             for (let i = -1; i < 2; i++) {
                 for (let j = -1; j < 2; j++){
-                    sum += grid[x+i][y+j];
+
+                    let col = (x + i + cols) % cols;
+                    let row = (y + j + rows) % rows;
+                    sum += grid[col][row];
                 }
             }
 
