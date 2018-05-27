@@ -10,7 +10,7 @@
         let grid;
         let cols;
         let rows;
-        let resolution = 2;
+        let resolution = 8;
         
         function make2Darray(cols, rows){
             let arr = new Array(cols);
@@ -24,10 +24,10 @@
             
         
         function setup ( ) {
-            frameRate(3);
+            frameRate(12);
             createCanvas(1000,1000);
-            cols = 500/resolution;
-            rows = 500/resolution;
+            cols = 800/resolution;
+            rows = 800/resolution;
             grid = make2Darray(1000,1000);    
             for (let i = 0; i < cols; i++) {
                 for (let j = 0; j < rows; j++) {
@@ -67,9 +67,9 @@
                 let neighbors = countNeighbors(grid, i, j);
                 let state = grid[i][j];
                 //conways game of life conditions
-                if (state == 0 && neighbors == 3) {
+                if (state == 0 && neighbors == 4) {
                     nextGen[i][j] = 1; 
-                }else if ( state == 1 && (neighbors < 2 || neighbors > 3)){
+                }else if ( state == 1 && (neighbors < 3 || neighbors > 5)){
                     nextGen[i][j] = 0;
                 }else {
                     nextGen[i][j] = state;
