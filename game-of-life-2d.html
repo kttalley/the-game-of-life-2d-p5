@@ -8,15 +8,25 @@
         let grid;
         let cols;
         let rows;
-        let resolution;
+        let resolution=10;
 
-        function setup () {
+
+       function make2DArray(cols, rows) {
+            let arr = new Array(cols);
+            for (let i = 0; i < arr.length; i++) {
+                arr[i] = new Array(rows);
+            }
+            return arr;
+        }
+       
+        
+         function setup () {
+            //rectMode(CENTER);
             frameRate(10);
-            resolution = 50;
-            createCanvas(1000,1000);
+            createCanvas( window.innerWidth, window.innerHeight);
             cols = 500/resolution;
             rows = 500/resolution;    
-            grid = make2DArray(10,10);
+            grid = make2DArray(1500,1500);
             for (let i = 0; i < cols; i++) {
                 for (let j = 0; j < rows; j++){
                     let rand = floor(random(2))
@@ -24,16 +34,10 @@
                 }
             }
         }
-        function make2DArray(cols, rows) {
-            let arr = new Array(cols);
-            for (let i = 0; i < arr.length; i++) {
-                arr[i] = new Array(rows);
-            }
-            return arr;
-        }
+        
 
         function draw () {
-            background(0,10);
+            background(0);
 
             
 
@@ -45,11 +49,11 @@
                     if (grid[i][j] == 1){
                        noStroke();
                         // stroke(y/4,x/2,x/3);
-                        fill(x/4,y/2,y/4,150);
+                        fill(255,150);
                         rect(x, y, resolution,resolution);
-                        fill(x/4,y/2,y/4,90);
+                        fill(255,90);
                         rect(x, y, resolution/2,resolution/2);
-                        fill(x/4,y/2,y/4,50);
+                        fill(255,50);
                         rect(x, y, resolution/4,resolution/4);
                         if(mouseIsPressed){
                             resolution--;
