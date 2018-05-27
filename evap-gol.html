@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.1/p5.js"></script>
+    
+    <script>
+        new p5();
+
+
+        let grid;
+        let cols;
+        let rows;
+        let resolution = 8;
+        
+        function make2Darray(cols, rows){
+            let arr = new Array(cols);
+            for (let i = 0; i < arr.length; i++ ) {
+                arr[i] = new Array(rows);
+            }
+            return arr;
+        }
+
+
+            
+        
+        function setup ( ) {
+            frameRate(12);
+            createCanvas(1000,1000);
+            cols = 800/resolution;
+            rows = 800/resolution;
+            grid = make2Darray(1000,1000);    
+            for (let i = 0; i < cols; i++) {
+                for (let j = 0; j < rows; j++) {
+                    let rand = floor(random(2));
+                    grid[i][j] = rand;
+                }
+            }
+            
+         }
+
+
+
+        function draw ( ) {
+            background(255);
+
+
+            for (let i = 0; i < cols; i++) {
+                for (let j = 0; j < rows; j++) {
+                    let x = i * resolution;     
+                    let y = j * resolution;
+                    if (grid[i][j] == 1) {
+                        noStroke();
+                        fill(0);
+                        rect(x,y,resolution,resolution);
+                    }         
+                
+    
+                }
+
+            }
+            
+        //compute nextGen based on grid
+        let nextGen = make2Darray(cols, rows);
+        for (let i = 0; i < cols; i++){
+            for (let j = 0; j < rows; j++){
+                let sum = 0;
+                let neighbors = countNeighbors(grid, i, j);
+                let state = grid[i][j];
+                //conways game of life conditions
+                if (state == 0 && neighbors == 4) {
+                    nextGen[i][j] = 1; 
+                }else if ( state == 1 && (neighbors < 4 || neighbors > 5)){
+                    nextGen[i][j] = 0;
+                }else {
+                    nextGen[i][j] = state;
+                }
+
+            }
+        }        
+        grid = nextGen;
+
+
+     
+        }
+        function countNeighbors(grid, x, y) {
+            let sum = 0;
+            for ( let i = -1; i < 2; i++) {
+                for ( let j = -1; j < 2; j++){
+                    let col = (x + i + cols) % cols;
+                    let row = (y + j + rows) % rows;
+                    sum += grid[col][row];
+                }
+            }
+                
+            sum -= grid[x][y];
+            return sum;
+
+        }
+          
+   </script>
+
+
+
+
+
+
+</html>
