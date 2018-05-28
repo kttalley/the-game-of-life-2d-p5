@@ -10,12 +10,19 @@
         let grid;
         let cols;
         let rows;
-        let resolution = 8;
+        let lanes;
+        let resolution = 5;
         
-        function make2Darray(cols, rows){
+        let gen1Color = [ 0, 0, 0 ];
+        let gen2Color = [ 255, 0, 255 ];
+         
+        function make3Darray(cols, rows,lanes){
             let arr = new Array(cols);
             for (let i = 0; i < arr.length; i++ ) {
                 arr[i] = new Array(rows);
+                for (let j = 0; j < arr.length; j++) {
+                    arr[j] = new Array(lanes);
+                }
             }
             return arr;
         }
@@ -24,15 +31,19 @@
             
         
         function setup ( ) {
-            frameRate(12);
-            createCanvas(1000,1000);
+            smooth();
+            frameRate(22);
+            createCanvas(1000,1000,WEBGL);
             cols = 800/resolution;
             rows = 800/resolution;
-            grid = make2Darray(1000,1000);    
+            lanes = 800/resolution;
+            grid = make3Darray(1000,1000,1000);    
             for (let i = 0; i < cols; i++) {
                 for (let j = 0; j < rows; j++) {
-                    let rand = floor(random(2));
-                    grid[i][j] = rand;
+                    for (let k = 0; k < lanes; k++) {
+                        let rand = floor(random(2));
+                        grid[i][j] = rand;
+                    }
                 }
             }
             
@@ -41,11 +52,10 @@
 
 
         function draw ( ) {
-            background(255,10);
-
-
-            for (let i = 0; i < cols; i++) {
+            background(256,10);
+              for (let i = 0; i < cols; i++) {
                 for (let j = 0; j < rows; j++) {
+                    for (let k = 0; k < lanes; k++) {
                     let x = i * resolution;     
                     let y = j * resolution;
                     if (grid[i][j] == 1) {
@@ -54,27 +64,29 @@
                         rect(x,y,resolution,resolution);
                     }         
                 
-    
+                }
                 }
 
             }
             
         //compute nextGen based on grid
-        let nextGen = make2Darray(cols, rows);
+        let nextGen = maker3Darray(cols, rows,lanes);
         for (let i = 0; i < cols; i++){
             for (let j = 0; j < rows; j++){
+                for (let k = 0; k < lanes; k++){
                 let sum = 0;
                 let neighbors = countNeighbors(grid, i, j);
                 let state = grid[i][j];
                 //conways game of life conditions
                 if (state == 0 && neighbors == 4) {
                     nextGen[i][j] = 1; 
-                }else if ( state == 1 && (neighbors < 2 || neighbors > 5)){
+                }else if ( state == 1 && (neighbors < 3 || neighbors > 5)){
                     nextGen[i][j] = 0;
                 }else {
                     nextGen[i][j] = state;
                 }
 
+            }
             }
         }        
         grid = nextGen;
@@ -82,6 +94,9 @@
 
      
         }
+
+
+
         function countNeighbors(grid, x, y) {
             let sum = 0;
             for ( let i = -1; i < 2; i++) {
@@ -105,3 +120,5 @@
 
 
 </html>
+                                                              107,1         Bot
+
